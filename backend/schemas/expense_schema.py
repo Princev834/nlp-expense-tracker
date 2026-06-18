@@ -58,7 +58,7 @@ class CategoryResponse(BaseModel):
 
 
 class BudgetCreate(BaseModel):
-    month:        str    # "2024-06"
+    month:        str
     total_budget: float
 
 
