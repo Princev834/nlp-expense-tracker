@@ -34,16 +34,21 @@ export default function HomePage() {
       .catch(() => {});
   };
 
+  const handleExpenseDeleted = (id) => {
+    setExpenses(prev => prev.filter(e => e.id !== id));
+    getCurrentBudget()
+      .then(res => setBudgetData(res.data))
+      .catch(() => {});
+  };
+
   return (
     <div className="page-content">
       <ExpenseInput onExpenseAdded={handleExpenseAdded} />
-
       <BudgetBar budgetData={budgetData} />
-
       <ExpenseList
         expenses={expenses}
-        setExpenses={setExpenses}
         loading={loading}
+        onExpenseDeleted={handleExpenseDeleted}
       />
     </div>
   );

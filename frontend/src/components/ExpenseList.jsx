@@ -1,12 +1,15 @@
 import ExpenseCard from './ExpenseCard';
 import { deleteExpense } from '../services/api';
+import { exportExpensesToCSV } from '../utils/exportCSV';
 
-export default function ExpenseList({ expenses, setExpenses, loading }) {
+const MONO = '"JetBrains Mono", "Fira Code", "SF Mono", monospace';
+
+export default function ExpenseList({ expenses, loading, onExpenseDeleted }) {
 
   const handleDelete = async (id) => {
-    setExpenses(prev => prev.filter(e => e.id !== id));
     try {
       await deleteExpense(id);
+      onExpenseDeleted(id);
     } catch {
       alert('Could not delete expense. Please refresh.');
     }
@@ -14,9 +17,11 @@ export default function ExpenseList({ expenses, setExpenses, loading }) {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px', color: 'var(--dim)' }}>
-        <div className="spinner" style={{ margin: '0 auto', borderTopColor: 'var(--accent)' }} />
-        <p style={{ marginTop: '12px', fontSize: '14px' }}>Loading expenses…</p>
+      <div style={{ textAlign: 'center', padding: '40px' }}>
+        <div className="spinner" style={{ margin: '0 auto', borderTopColor: 'var(--accent-invert)' }} />
+        <p style={{ marginTop: '12px', fontSize: '11px', fontFamily: MONO, color: '#333', letterSpacing: '0.1em' }}>
+          LOADING...
+        </p>
       </div>
     );
   }
@@ -27,7 +32,7 @@ export default function ExpenseList({ expenses, setExpenses, loading }) {
         <div className="empty-icon">🧾</div>
         <div className="empty-title">No expenses yet</div>
         <div className="empty-text">
-          Type your first expense above — try "Spent ₹200 on lunch today"
+          Type your first expense above · try "Spent ₹200 on lunch today"
         </div>
       </div>
     );
@@ -36,9 +41,31 @@ export default function ExpenseList({ expenses, setExpenses, loading }) {
   return (
     <div className="expense-list-section">
       <div className="list-header">
-        <p className="section-title">Recent Expenses</p>
-        <span className="expense-count">{expenses.length} entries</span>
+        <p className="section-title" style={{
+          marginBottom: 0,
+          borderLeft: '2px solid var(--accent-primary)',
+          paddingLeft: '10px',
+          fontFamily: MONO,
+          fontSize: '10px',
+          letterSpacing: '0.15em',
+          color: '#333',
+        }}>
+          RECENT EXPENSES
+        </p>
+        <div className="list-header-right">
+          <span className="expense-count" style={{ fontFamily: MONO, fontSize: '10px', color: '#333', letterSpacing: '0.08em' }}>
+            {expenses.length} {expenses.length === 1 ? 'entry' : 'entries'}
+          </span>
+          <button
+            className="export-btn"
+            onClick={() => exportExpensesToCSV(expenses)}
+            title="Download all expenses as CSV"
+          >
+            ↓ Export CSV
+          </button>
+        </div>
       </div>
+
       <div className="expense-list">
         {expenses.map(expense => (
           <ExpenseCard

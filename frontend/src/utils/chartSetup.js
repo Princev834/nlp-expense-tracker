@@ -1,4 +1,3 @@
-
 import {
   Chart as ChartJS,
   ArcElement,
@@ -24,6 +23,6 @@ ChartJS.register(
   Filler,
 );
 
-ChartJS.defaults.color           = '#94A3B8';
-ChartJS.defaults.borderColor     = 'rgba(45,63,85,0.6)';
-ChartJS.defaults.font.family     = 'Inter';
+ChartJS.defaults.color         = '#888888';
+ChartJS.defaults.borderColor   = '#1F1F1F';
+ChartJS.defaults.font.family   = "'JetBrains Mono', 'Fira Code', 'SF Mono', monospace";
