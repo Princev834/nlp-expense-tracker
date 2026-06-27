@@ -136,9 +136,7 @@ export default function ExpenseInput({ onExpenseAdded }) {
         ))}
       </div>
 
-      {error && (
-        <div className="error-banner">⚠ {error}</div>
-      )}
+      {error && <div className="error-banner">⚠ {error}</div>}
 
       {parsed && !success && (
         <div className="preview-card" style={{
@@ -146,17 +144,28 @@ export default function ExpenseInput({ onExpenseAdded }) {
           borderLeft: '2px solid var(--success)',
           background: '#0A0A0A',
         }}>
+
+          {/* Header */}
           <div className="preview-label" style={{
             fontFamily: MONO,
             fontSize: '10px',
             letterSpacing: '0.15em',
             color: '#333',
-            marginBottom: '24px',
+            marginBottom: '20px',
           }}>
             ✦ HERE'S WHAT I UNDERSTOOD
           </div>
 
-          <div className="preview-grid">
+          {/* Single row — Amount, Category, Date, Merchant (optional), Description */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: parsed.merchant
+              ? '0.6fr 1fr 0.8fr 0.8fr 1.4fr'
+              : '0.6fr 1fr 0.8fr 1.6fr',
+            gap: '24px',
+            marginBottom: '20px',
+            alignItems: 'start',
+          }}>
             <div className="preview-item">
               <span className="preview-item-label">Amount</span>
               <span className="preview-item-value amount">
@@ -198,14 +207,18 @@ export default function ExpenseInput({ onExpenseAdded }) {
               </div>
             )}
 
-            <div className="preview-item">
-              <span className="preview-item-label">Description</span>
-              <span className="preview-item-value" style={{ fontSize: '14px' }}>
-                {parsed.description}
-              </span>
-            </div>
+            {parsed.description && (
+              <div className="preview-item">
+                <span className="preview-item-label">Description</span>
+                <span className="preview-item-value" style={{ fontSize: '13px' }}>
+                  {parsed.description}
+                </span>
+              </div>
+            )}
           </div>
 
+
+          {/* Confidence bar */}
           <div className="confidence-row">
             <div className="confidence-track">
               <div
@@ -221,7 +234,9 @@ export default function ExpenseInput({ onExpenseAdded }) {
           <div className="preview-actions">
             <button className="btn btn-secondary" onClick={reset}>← Edit</button>
             <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-              {saving ? <><div className="spinner" /> Saving</> : '✓ Looks right, save it'}
+              {saving
+                ? <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div className="spinner" /> Saving</span>
+                : '✓ Looks right, save it'}
             </button>
           </div>
         </div>
