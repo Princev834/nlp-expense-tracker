@@ -7,6 +7,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app">
+        <div className="demo-banner">
+          🎯 This is a <span>shared live demo</span> — sample data auto-resets every 6 hours.
+          Try typing any expense in natural language!
+        </div>
         <Navbar />
         <main>
           <Routes>

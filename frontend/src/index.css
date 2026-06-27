@@ -1106,3 +1106,17 @@ body {
   border-color: var(--border-active);
   background: var(--bg-surface);
 }
+
+.demo-banner {
+  background: linear-gradient(90deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));
+  border-bottom: 1px solid rgba(99,102,241,0.3);
+  padding: 8px 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+.demo-banner span { 
+  color: var(--accent); 
+  font-weight: 600; 
+}
